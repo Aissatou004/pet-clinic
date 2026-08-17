@@ -1,48 +1,74 @@
-# 🐾 PetClinic — Jour 1 : Kickoff du projet
+# 🐾 Projet PetClinic — Système de Gestion Vétérinaire
 
-Objectif du jour : poser les fondations communes avant que chaque groupe ne commence à développer son module. **Rien ne doit être développé aujourd'hui côté fonctionnalités** — tout le monde doit repartir avec un dépôt, un JDL validé et une application de base qui tourne.
+Bienvenue dans le projet PetClinic. Ce document explique le projet dans son ensemble et ce que vous devez faire **aujourd'hui**, jour 1.
 
 ---
 
-## 1. Création du dépôt Git commun (30 min)
+## 🎯 Le projet en bref
 
-- [ ] Créer le dépôt `pet-clinic` sur la forge (GitHub/GitLab interne).
-- [ ] Ajouter les 14 stagiaires + encadrant(s) comme collaborateurs.
-- [ ] Protéger la branche `main` (pas de push direct, PR + au moins 1 review obligatoire).
-- [ ] Créer un fichier `README.md` à la racine avec :
-  - le nom du projet et son objectif,
-  - la liste des 7 groupes et leur périmètre (tableau du sujet),
-  - la convention de branches : `feature/<groupe>-<courte-description>` (ex. `feature/g4-animaux-crud`),
-  - la convention de commits (ex. `[G4] Ajout validation poids animal`),
-  - le lien vers le fichier `petclinic.jdl`.
+Vous allez concevoir et développer, **tous ensemble**, une application de gestion pour une clinique vétérinaire, avec la stack Spring Boot / JHipster / Angular.
 
-## 2. Atelier collectif : définition du JDL (1h)
+Ce n'est pas 7 projets identiques développés côte à côte : c'est **une seule application PetClinic**, construite par 7 binômes qui se partagent le travail sur un dépôt Git commun, comme dans une vraie squad.
 
-- [ ] Tous les groupes se réunissent (physiquement ou en visio) pour définir ensemble les 5 entités et leurs relations : `Clinique`, `Medecin`, `Client`, `Animal`, `RendezVous`.
-- [ ] Écrire le fichier `petclinic.jdl` avec :
-  - les attributs de chaque entité (voir sujet),
-  - les relations `OneToMany`/`ManyToOne`,
-  - `paginate * with pagination`,
-  - `service * with serviceClass`.
-- [ ] Chaque groupe relit et valide la partie du JDL qui le concerne avant de committer.
-- [ ] Commit du fichier `petclinic.jdl` directement sur une branche `setup/jdl-initial`, puis PR vers `main` reviewée par au moins 2 groupes différents.
+### Fonctionnalités attendues
 
-## 3. Génération de l'application de base (le groupe G7 pilote, les autres suivent)
+1. **Gestion des Cliniques** — CRUD (Nom, Adresse, Téléphone)
+2. **Gestion des Médecins** — CRUD, rattachés à une clinique (Nom, Prénom, Spécialité, Email)
+3. **Gestion des Clients (propriétaires)** — CRUD (Nom, Prénom, Adresse, Téléphone)
+4. **Gestion des Animaux** — CRUD, rattachés à un client (Nom, Espèce, Date de naissance, Poids)
+5. **Gestion des Rendez-vous** — Planification (Date, Heure, Motif), lié à un Animal, un Médecin et une Clinique. Règle métier : pas de rendez-vous dans le passé.
+6. **Recherche et filtrage** sur les listes (ex. client par nom, animal par espèce)
+7. **Dashboard** en page d'accueil : nombre total d'animaux enregistrés + rendez-vous du jour
 
-- [ ] G7 génère l'application JHipster monolithique (`jhipster` en mode interactif ou avec `.yo-rc.json` préparé) : nom `pet-clinic`, Angular, base de données au choix (PostgreSQL ou MySQL).
-- [ ] Import du `petclinic.jdl` validé à l'étape 2 dans l'application générée.
-- [ ] Vérification que l'application démarre correctement (`./mvnw` + `npm start` ou équivalent) et que les entités CRUD de base sont accessibles.
-- [ ] Commit de l'application générée sur `main` (squelette de base, sans personnalisation).
+### Organisation : 7 groupes, 7 périmètres
 
-## 4. Mise en place de l'environnement de chaque groupe (fin de journée)
+| Groupe | Périmètre | Ce qu'il livre |
+|---|---|---|
+| **G1 — Cliniques** | CRUD Clinique + lien avec Médecin | Formulaires, validations, liste avec recherche |
+| **G2 — Médecins** | CRUD Médecin, rattaché à une clinique | Gestion des spécialités, filtre par clinique/spécialité |
+| **G3 — Clients** | CRUD Client | Recherche par nom, fiche client avec ses animaux |
+| **G4 — Animaux** | CRUD Animal, rattaché à un client | Filtre par espèce, historique poids |
+| **G5 — Rendez-vous** | Planification RDV | Règle "pas de RDV dans le passé", vue par jour |
+| **G6 — Recherche & Dashboard** | Recherche globale, page d'accueil | Widgets dashboard, i18n des libellés |
+| **G7 — Intégration & JHipster** | Pilotage technique du dépôt commun | JDL, merges, CI, doc technique |
 
-- [ ] Chaque binôme clone le dépôt et fait tourner l'application en local avec succès.
+> Le rôle de **G7** peut tourner entre les groupes toutes les 1-2 semaines : chaque binôme passera à un moment par la partie "intégration" (gestion du JDL commun, résolution de conflits, CI/CD).
+
+### La règle d'or
+
+Il existe **un seul fichier `petclinic.jdl`** qui décrit tout le modèle de données du projet. Toute modification de ce fichier (nouvel attribut, nouvelle relation) passe par une Pull Request, jamais par un push direct sur `main`.
+
+---
+
+## ✅ Ce que vous devez faire aujourd'hui (Jour 1)
+
+Aujourd'hui, **on ne code aucune fonctionnalité**. L'objectif est de poser un socle commun sur lequel tout le monde pourra s'appuyer dès demain.
+
+### 1. Création du dépôt Git commun (~30 min)
+
+already done
+
+### 2. Atelier collectif : définition du JDL (~1h)
+
+- [ ] Tous les groupes se réunissent pour définir ensemble les 5 entités et leurs relations : `Clinique`, `Medecin`, `Client`, `Animal`, `RendezVous`.
+- [ ] Écrire `petclinic.jdl` avec les attributs de chaque entité, les relations `OneToMany`/`ManyToOne`, `paginate * with pagination`, `service * with serviceClass`.
+- [ ] Chaque groupe relit et valide la partie du JDL qui le concerne.
+- [ ] Commit sur une branche `setup/jdl-initial`, puis PR vers `main` reviewée par au moins 2 groupes différents.
+
+### 3. Génération de l'application de base (G7 pilote, les autres suivent)
+
+- [ ] G7 génère l'application JHipster monolithique : nom `pet-clinic`, Angular, base de données au choix (PostgreSQL ou MySQL).
+- [ ] Import du `petclinic.jdl` validé dans l'application générée.
+- [ ] Vérification que l'application démarre correctement et que les entités CRUD de base sont accessibles.
+- [ ] Commit du squelette de base sur `main`.
+
+### 4. Mise en place de l'environnement de chaque binôme (fin de journée)
+
+- [ ] Chaque binôme clone le dépôt et fait tourner l'application en local.
 - [ ] Chaque binôme crée sa branche `feature/<groupe>-...` à partir de `main` à jour.
-- [ ] Chaque binôme note dans `README.md` (section "Suivi des groupes") l'état "Environnement OK" une fois que ça tourne.
+- [ ] Chaque binôme note dans le `README.md` l'état "Environnement OK" une fois que ça tourne.
 
----
-
-## ✅ Fin de journée, on doit avoir :
+### En fin de journée, on doit avoir :
 
 1. Un dépôt Git avec `main` protégée.
 2. Un `petclinic.jdl` validé et versionné.
