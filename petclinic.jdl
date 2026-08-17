@@ -1,0 +1,80 @@
+entity Clinique {
+  nom String required,
+  adresse String required,
+  telephone String required
+}
+
+entity Medecin {
+  nom String required,
+  prenom String required,
+  specialite String required,
+  email String required pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/),
+  telephone String
+}
+
+entity Client {
+  nom String required,
+  prenom String required,
+  adresse String,
+  telephone String required,
+  email String pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+}
+
+entity Animal {
+  nom String required,
+  espece Espece required,
+  dateNaissance LocalDate required,
+  sexe Sexe
+}
+
+enum Espece {
+  CHIEN,
+  CHAT,
+  OISEAU,
+  RONGEUR,
+  VACHE,
+  MOUTON,
+  CHEVRE,
+  INSECTE,
+  LAPIN,
+  REPTILE,
+  AUTRE
+}
+
+enum Sexe {
+  MALE,
+  FEMELLE
+}
+
+entity RendezVous {
+  date Instant required,
+  motif String required,
+  duree Double required
+}
+
+entity PeserAnimal {
+  poids Double required
+}
+
+relationship OneToMany {
+  Clinique{medecin} to Medecin{clinique required},
+  Client{animal} to Animal{client required},
+  Clinique{rendezVous} to RendezVous{clinique required},
+  Medecin{rendezVous} to RendezVous{medecin required}
+}
+
+relationship ManyToOne {
+  RendezVous{animal required} to Animal
+}
+
+relationship OneToOne {
+  PeserAnimal{rendezVous required} to RendezVous
+}
+
+relationship ManyToOne {
+  PeserAnimal{animal required} to Animal
+}
+
+paginate Clinique, Medecin, Client, Animal, RendezVous, PeserAnimal with pagination
+
+service Clinique, Medecin, Client, Animal, RendezVous, PeserAnimal with serviceClass
