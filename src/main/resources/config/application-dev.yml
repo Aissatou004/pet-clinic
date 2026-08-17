@@ -31,11 +31,16 @@ spring:
     serialization:
       indent-output: true
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/petclinic
+    username: petclinic
+    password: petclinic
+    driver-class-name: org.postgresql.Driver
     hikari:
-      poolName: Hikari
       auto-commit: false
+
+  docker:
+    compose:
+      enabled: true
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker

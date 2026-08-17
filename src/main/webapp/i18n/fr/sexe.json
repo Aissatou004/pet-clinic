@@ -1,0 +1,9 @@
+{
+  "petclinicApp": {
+    "Sexe": {
+      "null": "",
+      "MALE": "MALE",
+      "FEMELLE": "FEMELLE"
+    }
+  }
+}

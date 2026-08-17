@@ -1,0 +1,60 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (animal(); as animalRef) {
+    <div>
+      <h2 data-cy="animalDetailsHeading"><span jhiTranslate="petclinicApp.animal.detail.title">Animal</span></h2>
+
+      <hr />
+
+      <jhi-alert-error />
+
+      <jhi-alert />
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ animalRef.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.animal.nom">Nom</span></dt>
+        <dd>
+          <span>{{ animalRef.nom }}</span>
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.animal.espece">Espece</span></dt>
+        <dd>
+          <span [jhiTranslate]="'petclinicApp.Espece.' + (animalRef.espece ?? 'null')"
+            >{{
+            {"null":"","CHIEN":"CHIEN","CHAT":"CHAT","OISEAU":"OISEAU","RONGEUR":"RONGEUR","VACHE":"VACHE","MOUTON":"MOUTON","CHEVRE":"CHEVRE","INSECTE":"INSECTE","LAPIN":"LAPIN","REPTILE":"REPTILE","AUTRE":"AUTRE"}[animalRef.espece
+            ?? 'null'] }}</span
+          >
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.animal.dateNaissance">Date Naissance</span></dt>
+        <dd>
+          <span>{{ animalRef.dateNaissance | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.animal.sexe">Sexe</span></dt>
+        <dd>
+          <span [jhiTranslate]="'petclinicApp.Sexe.' + (animalRef.sexe ?? 'null')"
+            >{{ {"null":"","MALE":"MALE","FEMELLE":"FEMELLE"}[animalRef.sexe ?? 'null'] }}</span
+          >
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.animal.client">Client</span></dt>
+        <dd>
+          @if (animal()!.client) {
+          <div>
+            <a [routerLink]="['/client', animal()!.client?.id, 'view']">{{ animalRef.client?.id }}</a>
+          </div>
+          }
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left" />&nbsp;<span jhiTranslate="entity.action.back">Retour</span>
+      </button>
+
+      <button type="button" [routerLink]="['/animal', animalRef.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt" />&nbsp;<span jhiTranslate="entity.action.edit">Editer</span>
+      </button>
+    </div>
+    }
+  </div>
+</div>

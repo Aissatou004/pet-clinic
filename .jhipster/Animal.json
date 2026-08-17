@@ -1,0 +1,43 @@
+{
+  "annotations": {
+    "changelogDate": "20260817151310"
+  },
+  "applications": ["*"],
+  "fields": [
+    {
+      "fieldName": "nom",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "espece",
+      "fieldType": "Espece",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "CHIEN,CHAT,OISEAU,RONGEUR,VACHE,MOUTON,CHEVRE,INSECTE,LAPIN,REPTILE,AUTRE"
+    },
+    {
+      "fieldName": "dateNaissance",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "sexe",
+      "fieldType": "Sexe",
+      "fieldValues": "MALE,FEMELLE"
+    }
+  ],
+  "name": "Animal",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "client",
+      "otherEntityRelationshipName": "animal",
+      "relationshipName": "client",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

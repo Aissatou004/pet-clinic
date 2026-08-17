@@ -1,0 +1,143 @@
+<div>
+  <h2 id="page-heading" data-cy="AnimalHeading">
+    <span jhiTranslate="petclinicApp.animal.home.title">Animals</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading()">
+        <fa-icon icon="sync" [animation]="isLoading() ? 'spin' : undefined" />
+        <span jhiTranslate="petclinicApp.animal.home.refreshListLabel">Actualiser la liste</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-animal"
+        [routerLink]="['/animal/new']"
+      >
+        <fa-icon icon="plus" />
+        <span jhiTranslate="petclinicApp.animal.home.createLabel">Créer un nouveau Animal</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  @if (animals().length === 0) {
+  <div class="alert alert-warning" id="no-result">
+    <span jhiTranslate="petclinicApp.animal.home.notFound">Aucun Animal trouvé</span>
+  </div>
+  } @else {
+  <div class="table-responsive table-entities" id="entities">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+
+              <fa-icon class="p-1" icon="sort" />
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="nom">
+            <div class="d-flex">
+              <span jhiTranslate="petclinicApp.animal.nom">Nom</span>
+
+              <fa-icon class="p-1" icon="sort" />
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="espece">
+            <div class="d-flex">
+              <span jhiTranslate="petclinicApp.animal.espece">Espece</span>
+
+              <fa-icon class="p-1" icon="sort" />
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dateNaissance">
+            <div class="d-flex">
+              <span jhiTranslate="petclinicApp.animal.dateNaissance">Date Naissance</span>
+
+              <fa-icon class="p-1" icon="sort" />
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sexe">
+            <div class="d-flex">
+              <span jhiTranslate="petclinicApp.animal.sexe">Sexe</span>
+
+              <fa-icon class="p-1" icon="sort" />
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="client.id">
+            <div class="d-flex">
+              <span jhiTranslate="petclinicApp.animal.client">Client</span>
+              <fa-icon class="p-1" icon="sort" />
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (animal of animals(); track trackId(animal)) {
+        <tr data-cy="entityTable">
+          <td><a [routerLink]="['/animal', animal.id, 'view']">{{ animal.id }}</a></td>
+          <td>{{ animal.nom }}</td>
+          <td [jhiTranslate]="'petclinicApp.Espece.' + (animal.espece ?? 'null')">
+            {{
+            {"null":"","CHIEN":"CHIEN","CHAT":"CHAT","OISEAU":"OISEAU","RONGEUR":"RONGEUR","VACHE":"VACHE","MOUTON":"MOUTON","CHEVRE":"CHEVRE","INSECTE":"INSECTE","LAPIN":"LAPIN","REPTILE":"REPTILE","AUTRE":"AUTRE"}[animal.espece
+            ?? 'null'] }}
+          </td>
+          <td>{{ animal.dateNaissance | formatMediumDate }}</td>
+          <td [jhiTranslate]="'petclinicApp.Sexe.' + (animal.sexe ?? 'null')">
+            {{ {"null":"","MALE":"MALE","FEMELLE":"FEMELLE"}[animal.sexe ?? 'null'] }}
+          </td>
+          <td>
+            @if (animal.client) {
+            <div>
+              <a [routerLink]="['/client', animal.client.id, 'view']">{{ animal.client.id }}</a>
+            </div>
+            }
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <a [routerLink]="['/animal', animal.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye" />
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Voir</span>
+              </a>
+
+              <a [routerLink]="['/animal', animal.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt" />
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editer</span>
+              </a>
+
+              <button type="submit" (click)="delete(animal)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times" />
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Supprimer</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  } @if (animals().length > 0) {
+  <div>
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page(), totalItems: totalItems(), itemsPerPage: itemsPerPage() }" />
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems()"
+        [page]="page()"
+        [pageSize]="itemsPerPage()"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      />
+    </div>
+  </div>
+  }
+</div>

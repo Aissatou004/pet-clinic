@@ -12,7 +12,17 @@
     <property name="timeType" value="time(6)" dbms="postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20260817151307_added_entity_Clinique.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20260817151308_added_entity_Medecin.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20260817151309_added_entity_Client.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20260817151310_added_entity_Animal.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20260817151311_added_entity_RendezVous.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20260817151312_added_entity_PeserAnimal.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20260817151308_added_entity_constraints_Medecin.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20260817151310_added_entity_constraints_Animal.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20260817151311_added_entity_constraints_RendezVous.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20260817151312_added_entity_constraints_PeserAnimal.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

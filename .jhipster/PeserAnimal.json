@@ -1,0 +1,33 @@
+{
+  "annotations": {
+    "changelogDate": "20260817151312"
+  },
+  "applications": ["*"],
+  "fields": [
+    {
+      "fieldName": "poids",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "PeserAnimal",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "rendezVous",
+      "relationshipName": "rendezVous",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "animal",
+      "relationshipName": "animal",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

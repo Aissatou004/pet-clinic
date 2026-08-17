@@ -44,6 +44,16 @@ public class CacheConfiguration {
             createCache(cm, com.stg.petclinic.domain.User.class.getName());
             createCache(cm, com.stg.petclinic.domain.Authority.class.getName());
             createCache(cm, com.stg.petclinic.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.stg.petclinic.domain.Clinique.class.getName());
+            createCache(cm, com.stg.petclinic.domain.Clinique.class.getName() + ".medecins");
+            createCache(cm, com.stg.petclinic.domain.Clinique.class.getName() + ".rendezVouses");
+            createCache(cm, com.stg.petclinic.domain.Medecin.class.getName());
+            createCache(cm, com.stg.petclinic.domain.Medecin.class.getName() + ".rendezVouses");
+            createCache(cm, com.stg.petclinic.domain.Client.class.getName());
+            createCache(cm, com.stg.petclinic.domain.Client.class.getName() + ".animals");
+            createCache(cm, com.stg.petclinic.domain.Animal.class.getName());
+            createCache(cm, com.stg.petclinic.domain.RendezVous.class.getName());
+            createCache(cm, com.stg.petclinic.domain.PeserAnimal.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--
+        Added the constraints for entity RendezVous.
+    -->
+    <changeSet id="20260817151311-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="animal_id"
+                                 baseTableName="rendez_vous"
+                                 constraintName="fk_rendez_vous__animal_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="animal"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="clinique_id"
+                                 baseTableName="rendez_vous"
+                                 constraintName="fk_rendez_vous__clinique_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="clinique"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="medecin_id"
+                                 baseTableName="rendez_vous"
+                                 constraintName="fk_rendez_vous__medecin_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="medecin"
+                                 />
+    </changeSet>
+</databaseChangeLog>

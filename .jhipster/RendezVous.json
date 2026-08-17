@@ -1,0 +1,52 @@
+{
+  "annotations": {
+    "changelogDate": "20260817151311"
+  },
+  "applications": ["*"],
+  "fields": [
+    {
+      "fieldName": "date",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "motif",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "duree",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "RendezVous",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "animal",
+      "relationshipName": "animal",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "clinique",
+      "otherEntityRelationshipName": "rendezVous",
+      "relationshipName": "clinique",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "medecin",
+      "otherEntityRelationshipName": "rendezVous",
+      "relationshipName": "medecin",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}
