@@ -22,15 +22,15 @@ Ce n'est pas 7 projets identiques développés côte à côte : c'est **une seul
 
 ### Organisation : 7 groupes, 7 périmètres
 
-| Groupe | Périmètre | Ce qu'il livre |
-|---|---|---|
-| **G1 — Cliniques** | CRUD Clinique + lien avec Médecin | Formulaires, validations, liste avec recherche |
-| **G2 — Médecins** | CRUD Médecin, rattaché à une clinique | Gestion des spécialités, filtre par clinique/spécialité |
-| **G3 — Clients** | CRUD Client | Recherche par nom, fiche client avec ses animaux |
-| **G4 — Animaux** | CRUD Animal, rattaché à un client | Filtre par espèce, historique poids |
-| **G5 — Rendez-vous** | Planification RDV | Règle "pas de RDV dans le passé", vue par jour |
-| **G6 — Recherche & Dashboard** | Recherche globale, page d'accueil | Widgets dashboard, i18n des libellés |
-| **G7 — Intégration & JHipster** | Pilotage technique du dépôt commun | JDL, merges, CI, doc technique |
+| Groupe                          | Périmètre                             | Ce qu'il livre                                          |
+| ------------------------------- | ------------------------------------- | ------------------------------------------------------- |
+| **G1 — Cliniques**              | CRUD Clinique + lien avec Médecin     | Formulaires, validations, liste avec recherche          |
+| **G2 — Médecins**               | CRUD Médecin, rattaché à une clinique | Gestion des spécialités, filtre par clinique/spécialité |
+| **G3 — Clients**                | CRUD Client                           | Recherche par nom, fiche client avec ses animaux        |
+| **G4 — Animaux**                | CRUD Animal, rattaché à un client     | Filtre par espèce, historique poids                     |
+| **G5 — Rendez-vous**            | Planification RDV                     | Règle "pas de RDV dans le passé", vue par jour          |
+| **G6 — Recherche & Dashboard**  | Recherche globale, page d'accueil     | Widgets dashboard, i18n des libellés                    |
+| **G7 — Intégration & JHipster** | Pilotage technique du dépôt commun    | JDL, merges, CI, doc technique                          |
 
 > Le rôle de **G7** peut tourner entre les groupes toutes les 1-2 semaines : chaque binôme passera à un moment par la partie "intégration" (gestion du JDL commun, résolution de conflits, CI/CD).
 
@@ -74,3 +74,9 @@ already done
 2. Un `petclinic.jdl` validé et versionné.
 3. Une application JHipster de base qui démarre pour tout le monde.
 4. Chaque binôme avec sa branche prête pour démarrer son module demain.
+
+### État des environnements par groupe
+
+| Groupe        | Environnement                                      | Branche               |
+| ------------- | -------------------------------------------------- | --------------------- |
+| G2 — Médecins | ✅ OK (app démarre en local, CRUD Medecin vérifié) | `feature/g2-medecins` |
