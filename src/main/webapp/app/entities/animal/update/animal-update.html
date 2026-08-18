@@ -93,7 +93,7 @@
             @if (editForm.get(['client'])!.value === null) {
             <option [ngValue]="null" selected></option>
             } @for (clientOption of clientsSharedCollection(); track $index) {
-            <option [ngValue]="clientOption">{{ clientOption.id }}</option>
+            <option [ngValue]="clientOption">{{ clientOption.prenom }} {{ clientOption.nom}}</option>
             }
           </select>
         </div>
