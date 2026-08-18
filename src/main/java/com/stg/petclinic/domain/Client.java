@@ -28,18 +28,18 @@ public class Client implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(name = "nom", nullable = false)
     private String nom;
 
-    @NotNull
+    @NotBlank
     @Column(name = "prenom", nullable = false)
     private String prenom;
 
     @Column(name = "adresse")
     private String adresse;
 
-    @NotNull
+    @NotBlank
     @Column(name = "telephone", nullable = false)
     private String telephone;
 
