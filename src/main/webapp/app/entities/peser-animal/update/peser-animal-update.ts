@@ -110,7 +110,7 @@ export class PeserAnimalUpdate implements OnInit {
       .subscribe((rendezVouses: IRendezVous[]) => this.rendezVousesCollection.set(rendezVouses));
 
     this.animalService
-      .query()
+      .query({ size: 2000 })
       .pipe(map((res: HttpResponse<IAnimal[]>) => res.body ?? []))
       .pipe(map((animals: IAnimal[]) => this.animalService.addAnimalToCollectionIfMissing<IAnimal>(animals, this.peserAnimal?.animal)))
       .subscribe((animals: IAnimal[]) => this.animalsSharedCollection.set(animals));
