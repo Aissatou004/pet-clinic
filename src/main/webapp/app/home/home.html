@@ -1,83 +1,176 @@
-<div class="row">
-  <div class="col-md-3">
-    <span class="hipster img-fluid rounded"></span>
+<div class="dashboard-container p-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h3 fw-bold text-dark mb-1">Tableau de Bord Vétérinaire</h1>
+      <p class="text-muted mb-0">Bienvenue sur PetClinic — Aperçu de l'activité</p>
+    </div>
+    <span class="badge bg-light text-dark border px-3 py-2 rounded-pill shadow-sm"> {{ today | date:'EEEE d MMMM yyyy' }} </span>
   </div>
 
-  <div class="col-md-9">
-    <h1 class="display-4"><span jhiTranslate="home.title">Bienvenue, Java Hipster !</span> (Petclinic)</h1>
+  <div class="search-card p-2 mb-3 bg-white rounded-4 shadow-sm">
+    <div class="input-group align-items-center">
+      <span class="input-group-text border-0 bg-transparent ps-3 pe-2 text-muted">
+        <i class="fa-solid fa-magnifying-glass fs-5 text-primary"></i>
+      </span>
 
-    <p class="lead" jhiTranslate="home.subtitle">Ceci est votre page d&apos;accueil</p>
+      <input
+        type="text"
+        class="form-control border-0 shadow-none bg-transparent py-2 fs-6"
+        placeholder="Rechercher un client, un animal, un médecin, un numéro de puce..."
+      />
 
-    <div>
-      @if (account() !== null) {
-      <div class="alert alert-success">
-        @if (account(); as accountRef) {
-        <span id="home-logged-message" jhiTranslate="home.logged.message" [translateValues]="{ username: accountRef.login }"
-          >Vous êtes connecté en tant que &quot;{{ accountRef.login }}&quot;.</span
-        >
-        }
-      </div>
-      } @else {
-      <div class="alert alert-warning">
-        <span jhiTranslate="global.messages.info.authenticated.prefix">Si vous voulez vous </span>
-        <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">connecter</a
-        ><span jhiTranslate="global.messages.info.authenticated.suffix"
-          >, vous pouvez utiliser les comptes par défaut : <br />
-          - Administrateur (nom d&apos;utilisateur=&quot;admin&quot; et mot de passe =&quot;admin&quot;) <br />
-          - Utilisateur (nom d&apos;utilisateur=&quot;user&quot; et mot de passe =&quot;user&quot;).</span
-        >
+      <button class="btn btn-search text-white rounded-3 px-4 py-2 font-semibold d-flex align-items-center gap-2" type="button">
+        <span>Rechercher</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm rounded-4 mb-4 bg-white p-3">
+    <div class="row g-3 align-items-end">
+      <div class="col-12 col-md-4 col-lg-3">
+        <label class="form-label small fw-semibold text-muted mb-1">Clinique</label>
+        <select class="form-select bg-light border-0 shadow-none">
+          <option value="">Toutes les cliniques</option>
+          <option value="1">Clinique Centre-Ville</option>
+          <option value="2">Clinique Saint-Hubert</option>
+        </select>
       </div>
 
-      <div class="alert alert-warning">
-        <span jhiTranslate="global.messages.info.register.noaccount">Vous n&apos;avez pas encore de compte ?</span>&nbsp;
-        <a class="alert-link" routerLink="/account/register" jhiTranslate="global.messages.info.register.link">Créer un compte</a>
+      <div class="col-12 col-md-4 col-lg-3">
+        <label class="form-label small fw-semibold text-muted mb-1">Date</label>
+        <input type="date" class="form-control bg-light border-0 shadow-none" />
       </div>
-      }
+
+      <div class="col-12 col-md-4 col-lg-3">
+        <label class="form-label small fw-semibold text-muted mb-1">Durée max</label>
+        <select class="form-select bg-light border-0 shadow-none">
+          <option value="">Toutes les durées</option>
+          <option value="15">15 min</option>
+          <option value="30">30 min</option>
+          <option value="60">1 heure ou plus</option>
+        </select>
+      </div>
+
+      <div class="col-12 col-lg-3">
+        <button class="btn btn-outline-secondary w-100 py-2 d-flex align-items-center justify-content-center gap-2" type="button">
+          <i class="fa-solid fa-rotate-left"></i>
+          <span>Réinitialiser</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="card border-0 shadow-sm rounded-4 h-100 hover-card">
+        <div class="card-body d-flex align-items-center p-3">
+          <div>
+            <div class="text-muted small fw-semibold">ANIMAUX ENREGISTRÉS</div>
+            <div class="h3 fw-bold mb-0 text-dark">128</div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <p jhiTranslate="home.question">Si vous avez des questions à propos de JHipster :</p>
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="card border-0 shadow-sm rounded-4 h-100 hover-card">
+        <div class="card-body d-flex align-items-center p-3">
+          <div>
+            <div class="text-muted small fw-semibold">RDV AUJOURD'HUI</div>
+            <div class="h3 fw-bold mb-0 text-dark">8</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <ul>
-      <li>
-        <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.homepage"
-          >Page d&apos;accueil de JHipster</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://stackoverflow.com/tags/jhipster/info"
-          target="_blank"
-          rel="noopener noreferrer"
-          jhiTranslate="home.link.stackoverflow"
-          >JHipster sur Stack Overflow</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/jhipster/generator-jhipster/issues?state=open"
-          target="_blank"
-          rel="noopener noreferrer"
-          jhiTranslate="home.link.bugtracker"
-          >JHipster bug tracker</a
-        >
-      </li>
-      <li>
-        <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.chat"
-          >JHipster public chat room</a
-        >
-      </li>
-      <li>
-        <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.follow"
-          >Suivez &#64;jhipster sur Twitter</a
-        >
-      </li>
-    </ul>
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="card border-0 shadow-sm rounded-4 h-100 hover-card">
+        <div class="card-body d-flex align-items-center p-3">
+          <div>
+            <div class="text-muted small fw-semibold">CLIENTS ACTIFS</div>
+            <div class="h3 fw-bold mb-0 text-dark">94</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <p>
-      <span jhiTranslate="home.like">Si vous aimez JHipster, donnez-nous une étoile sur</span>
-      <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.github"
-        >GitHub</a
-      >!
-    </p>
+    <div class="col-12 col-sm-6 col-xl-3">
+      <div class="card border-0 shadow-sm rounded-4 h-100 hover-card">
+        <div class="card-body d-flex align-items-center p-3">
+          <div>
+            <div class="text-muted small fw-semibold">CLINIQUES</div>
+            <div class="h3 fw-bold mb-0 text-dark">3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="card-header bg-white border-0 py-3 px-4 d-flex justify-content-between align-items-center">
+      <div>
+        <h5 class="fw-bold mb-0 text-dark">Planning des Rendez-vous</h5>
+        <small class="text-muted">Prochaines consultations prévues</small>
+      </div>
+      <button class="btn btn-outline-primary btn-sm rounded-pill px-3">Voir tout le planning</button>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table align-middle mb-0 table-hover">
+        <thead class="bg-light text-muted small text-uppercase">
+          <tr>
+            <th class="ps-4">Date & Heure</th>
+            <th>Durée</th>
+            <th>Clinique</th>
+            <th>Animal</th>
+            <th>Propriétaire</th>
+            <th>Médecin Référent</th>
+            <th>Motif</th>
+            <th class="text-end pe-4">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="ps-4 fw-bold text-primary">18/08/2026 — 09:00</td>
+            <td><span class="badge bg-light text-dark border">30 min</span></td>
+            <td><span class="fw-semibold text-dark">Clinique Centre-Ville</span></td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div>
+                  <div class="fw-bold text-dark">Rex</div>
+                  <div class="text-muted small">Berger Allemand</div>
+                </div>
+              </div>
+            </td>
+            <td>Jean Dupont</td>
+            <td>Dr. Martin</td>
+            <td>Vaccination annuelle</td>
+            <td class="text-end pe-4">
+              <button class="btn btn-sm btn-light rounded-circle" title="Voir détails">👁️</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="ps-4 fw-bold text-primary">18/08/2026 — 10:30</td>
+            <td><span class="badge bg-light text-dark border">45 min</span></td>
+            <td><span class="fw-semibold text-dark">Clinique Saint-Hubert</span></td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div>
+                  <div class="fw-bold text-dark">Mina</div>
+                  <div class="text-muted small">Siamois</div>
+                </div>
+              </div>
+            </td>
+            <td>Sophie Bernard</td>
+            <td>Dr. Lefebvre</td>
+            <td>Consultation Dermatologie</td>
+            <td class="text-end pe-4">
+              <button class="btn btn-sm btn-light rounded-circle" title="Voir détails">👁️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
