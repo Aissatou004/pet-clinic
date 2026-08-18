@@ -1,0 +1,23 @@
+export enum Espece {
+  CHIEN = 'CHIEN',
+
+  CHAT = 'CHAT',
+
+  OISEAU = 'OISEAU',
+
+  RONGEUR = 'RONGEUR',
+
+  VACHE = 'VACHE',
+
+  MOUTON = 'MOUTON',
+
+  CHEVRE = 'CHEVRE',
+
+  INSECTE = 'INSECTE',
+
+  LAPIN = 'LAPIN',
+
+  REPTILE = 'REPTILE',
+
+  AUTRE = 'AUTRE',
+}

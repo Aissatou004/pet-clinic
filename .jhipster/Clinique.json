@@ -1,0 +1,43 @@
+{
+  "annotations": {
+    "changelogDate": "20260817151307"
+  },
+  "applications": ["*"],
+  "fields": [
+    {
+      "fieldName": "nom",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "adresse",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "telephone",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Clinique",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "medecin",
+      "otherEntityRelationshipName": "clinique",
+      "relationshipName": "medecin",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "rendezVous",
+      "otherEntityRelationshipName": "clinique",
+      "relationshipName": "rendezVous",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

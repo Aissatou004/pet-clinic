@@ -1,0 +1,58 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (medecin(); as medecinRef) {
+    <div>
+      <h2 data-cy="medecinDetailsHeading"><span jhiTranslate="petclinicApp.medecin.detail.title">Medecin</span></h2>
+
+      <hr />
+
+      <jhi-alert-error />
+
+      <jhi-alert />
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ medecinRef.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.medecin.nom">Nom</span></dt>
+        <dd>
+          <span>{{ medecinRef.nom }}</span>
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.medecin.prenom">Prenom</span></dt>
+        <dd>
+          <span>{{ medecinRef.prenom }}</span>
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.medecin.specialite">Specialite</span></dt>
+        <dd>
+          <span>{{ medecinRef.specialite }}</span>
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.medecin.email">Email</span></dt>
+        <dd>
+          <span>{{ medecinRef.email }}</span>
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.medecin.telephone">Telephone</span></dt>
+        <dd>
+          <span>{{ medecinRef.telephone }}</span>
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.medecin.clinique">Clinique</span></dt>
+        <dd>
+          @if (medecin()!.clinique) {
+          <div>
+            <a [routerLink]="['/clinique', medecin()!.clinique?.id, 'view']">{{ medecinRef.clinique?.id }}</a>
+          </div>
+          }
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left" />&nbsp;<span jhiTranslate="entity.action.back">Retour</span>
+      </button>
+
+      <button type="button" [routerLink]="['/medecin', medecinRef.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt" />&nbsp;<span jhiTranslate="entity.action.edit">Editer</span>
+      </button>
+    </div>
+    }
+  </div>
+</div>

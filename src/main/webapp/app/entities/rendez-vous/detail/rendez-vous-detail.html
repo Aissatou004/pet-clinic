@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (rendezVous(); as rendezVousRef) {
+    <div>
+      <h2 data-cy="rendezVousDetailsHeading"><span jhiTranslate="petclinicApp.rendezVous.detail.title">Rendez Vous</span></h2>
+
+      <hr />
+
+      <jhi-alert-error />
+
+      <jhi-alert />
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ rendezVousRef.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.rendezVous.date">Date</span></dt>
+        <dd>
+          <span>{{ rendezVousRef.date | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.rendezVous.motif">Motif</span></dt>
+        <dd>
+          <span>{{ rendezVousRef.motif }}</span>
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.rendezVous.duree">Duree</span></dt>
+        <dd>
+          <span>{{ rendezVousRef.duree }}</span>
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.rendezVous.animal">Animal</span></dt>
+        <dd>
+          @if (rendezVous()!.animal) {
+          <div>
+            <a [routerLink]="['/animal', rendezVous()!.animal?.id, 'view']">{{ rendezVousRef.animal?.id }}</a>
+          </div>
+          }
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.rendezVous.clinique">Clinique</span></dt>
+        <dd>
+          @if (rendezVous()!.clinique) {
+          <div>
+            <a [routerLink]="['/clinique', rendezVous()!.clinique?.id, 'view']">{{ rendezVousRef.clinique?.id }}</a>
+          </div>
+          }
+        </dd>
+        <dt><span jhiTranslate="petclinicApp.rendezVous.medecin">Medecin</span></dt>
+        <dd>
+          @if (rendezVous()!.medecin) {
+          <div>
+            <a [routerLink]="['/medecin', rendezVous()!.medecin?.id, 'view']">{{ rendezVousRef.medecin?.id }}</a>
+          </div>
+          }
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left" />&nbsp;<span jhiTranslate="entity.action.back">Retour</span>
+      </button>
+
+      <button type="button" [routerLink]="['/rendez-vous', rendezVousRef.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt" />&nbsp;<span jhiTranslate="entity.action.edit">Editer</span>
+      </button>
+    </div>
+    }
+  </div>
+</div>
