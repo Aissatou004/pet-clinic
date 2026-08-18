@@ -96,7 +96,9 @@ public class RendezVousService {
     @Transactional(readOnly = true)
     public List<RendezVous> findAllWherePeserAnimalIsNull() {
         LOG.debug("Request to get all rendezVouses where PeserAnimal is null");
-        return StreamSupport.stream(rendezVousRepository.findAll().spliterator(), false)
+        return rendezVousRepository
+            .findAll()
+            .stream()
             .filter(rendezVous -> rendezVous.getPeserAnimal() == null)
             .toList();
     }
