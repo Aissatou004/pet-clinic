@@ -82,10 +82,25 @@
         @for (client of clients(); track trackId(client)) {
         <tr data-cy="entityTable">
           <td><a [routerLink]="['/client', client.id, 'view']">{{ client.id }}</a></td>
-          <td>{{ client.nom }}</td>
-          <td>{{ client.prenom }}</td>
+
+          <!-- Mise en valeur du Nom (majuscules + gras) -->
+          <td>
+            <span class="fw-bold">{{ client.nom | uppercase }}</span>
+          </td>
+
+          <!-- Affichage propre du Prénom (première lettre en majuscule) -->
+          <td>{{ client.prenom | titlecase }}</td>
+
           <td>{{ client.adresse }}</td>
-          <td>{{ client.telephone }}</td>
+
+          <!-- Numéro de téléphone cliquable avec icône -->
+          <td>
+            <a [href]="'tel:' + client.telephone" class="text-decoration-none fw-semibold">
+              <fa-icon icon="phone" class="me-1 text-primary" />
+              {{ client.telephone }}
+            </a>
+          </td>
+
           <td>{{ client.email }}</td>
           <td class="text-end">
             <div class="btn-group">
