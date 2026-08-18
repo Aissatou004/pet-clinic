@@ -47,6 +47,18 @@
               <fa-icon class="p-1" icon="sort" />
             </div>
           </th>
+          <th scope="col" jhiSortBy="animal.nom">
+            <div class="d-flex">
+              <span jhiTranslate="petclinicApp.rendezVous.animal">Animal</span>
+              <fa-icon class="p-1" icon="sort" />
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="medecin.nom">
+            <div class="d-flex">
+              <span jhiTranslate="petclinicApp.rendezVous.medecin">Medecin</span>
+              <fa-icon class="p-1" icon="sort" />
+            </div>
+          </th>
           <th scope="col" jhiSortBy="motif">
             <div class="d-flex">
               <span jhiTranslate="petclinicApp.rendezVous.motif">Motif</span>
@@ -61,21 +73,9 @@
               <fa-icon class="p-1" icon="sort" />
             </div>
           </th>
-          <th scope="col" jhiSortBy="animal.id">
-            <div class="d-flex">
-              <span jhiTranslate="petclinicApp.rendezVous.animal">Animal</span>
-              <fa-icon class="p-1" icon="sort" />
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="clinique.id">
+          <th scope="col" jhiSortBy="clinique.nom">
             <div class="d-flex">
               <span jhiTranslate="petclinicApp.rendezVous.clinique">Clinique</span>
-              <fa-icon class="p-1" icon="sort" />
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="medecin.id">
-            <div class="d-flex">
-              <span jhiTranslate="petclinicApp.rendezVous.medecin">Medecin</span>
               <fa-icon class="p-1" icon="sort" />
             </div>
           </th>
@@ -87,26 +87,26 @@
         <tr data-cy="entityTable">
           <td><a [routerLink]="['/rendez-vous', rendezVous.id, 'view']">{{ rendezVous.id }}</a></td>
           <td>{{ rendezVous.date | formatMediumDatetime }}</td>
-          <td>{{ rendezVous.motif }}</td>
-          <td>{{ rendezVous.duree }}</td>
           <td>
             @if (rendezVous.animal) {
             <div>
-              <a [routerLink]="['/animal', rendezVous.animal.id, 'view']">{{ rendezVous.animal.id }}</a>
-            </div>
-            }
-          </td>
-          <td>
-            @if (rendezVous.clinique) {
-            <div>
-              <a [routerLink]="['/clinique', rendezVous.clinique.id, 'view']">{{ rendezVous.clinique.id }}</a>
+              <a [routerLink]="['/animal', rendezVous.animal.id, 'view']">{{ rendezVous.animal.nom }}</a>
             </div>
             }
           </td>
           <td>
             @if (rendezVous.medecin) {
             <div>
-              <a [routerLink]="['/medecin', rendezVous.medecin.id, 'view']">{{ rendezVous.medecin.id }}</a>
+              <a [routerLink]="['/medecin', rendezVous.medecin.id, 'view']">{{ rendezVous.medecin.nom }}</a>
+            </div>
+            }
+          </td>
+          <td>{{ rendezVous.motif }}</td>
+          <td>{{ rendezVous.duree }}</td>
+          <td>
+            @if (rendezVous.clinique) {
+            <div>
+              <a [routerLink]="['/clinique', rendezVous.clinique.id, 'view']">{{ rendezVous.clinique.nom }}</a>
             </div>
             }
           </td>
