@@ -2,6 +2,7 @@ package com.stg.petclinic.service;
 
 import com.stg.petclinic.domain.RendezVous;
 import com.stg.petclinic.repository.RendezVousRepository;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -36,6 +37,7 @@ public class RendezVousService {
      */
     public RendezVous save(RendezVous rendezVous) {
         LOG.debug("Request to save RendezVous : {}", rendezVous);
+        validateDate(rendezVous);
         return rendezVousRepository.save(rendezVous);
     }
 
@@ -47,6 +49,7 @@ public class RendezVousService {
      */
     public RendezVous update(RendezVous rendezVous) {
         LOG.debug("Request to update RendezVous : {}", rendezVous);
+        validateDate(rendezVous);
         return rendezVousRepository.save(rendezVous);
     }
 
@@ -57,7 +60,7 @@ public class RendezVousService {
      * @return the persisted entity.
      */
     public Optional<RendezVous> partialUpdate(RendezVous rendezVous) {
-        LOG.debug("Request to partially update RendezVous : {}", rendezVous);
+        LOG.debug("Request to partially update a rendezVous : {}", rendezVous);
 
         return rendezVousRepository
             .findById(rendezVous.getId())
@@ -65,6 +68,8 @@ public class RendezVousService {
                 updateIfPresent(existingRendezVous::setDate, rendezVous.getDate());
                 updateIfPresent(existingRendezVous::setMotif, rendezVous.getMotif());
                 updateIfPresent(existingRendezVous::setDuree, rendezVous.getDuree());
+
+                validateDate(existingRendezVous);
 
                 return existingRendezVous;
             })
@@ -84,8 +89,9 @@ public class RendezVousService {
     }
 
     /**
-     *  Get all the rendezVouses where PeserAnimal is {@code null}.
-     *  @return the list of entities.
+     * Get all the rendezVouses where PeserAnimal is {@code null}.
+     *
+     * @return the list of entities.
      */
     @Transactional(readOnly = true)
     public List<RendezVous> findAllWherePeserAnimalIsNull() {
@@ -115,6 +121,17 @@ public class RendezVousService {
     public void delete(Long id) {
         LOG.debug("Request to delete RendezVous : {}", id);
         rendezVousRepository.deleteById(id);
+    }
+
+    /**
+     * Validate that the appointment date is not in the past.
+     *
+     * @param rendezVous the appointment to validate.
+     */
+    private void validateDate(RendezVous rendezVous) {
+        if (rendezVous.getDate() != null && rendezVous.getDate().isBefore(Instant.now())) {
+            throw new IllegalArgumentException("La date du rendez-vous ne peut pas être dans le passé.");
+        }
     }
 
     private <T> void updateIfPresent(Consumer<T> setter, T value) {
