@@ -40,6 +40,7 @@ public class Animal implements Serializable {
 
     @NotNull
     @Column(name = "date_naissance", nullable = false)
+    @PastOrPresent
     private LocalDate dateNaissance;
 
     @Enumerated(EnumType.STRING)

@@ -28,6 +28,8 @@ public class PeserAnimal implements Serializable {
 
     @NotNull
     @Column(name = "poids", nullable = false)
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Positive
     private Double poids;
 
     @JsonIgnoreProperties(value = { "animal", "clinique", "medecin", "peserAnimal" }, allowSetters = true)

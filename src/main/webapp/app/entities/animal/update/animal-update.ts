@@ -96,7 +96,7 @@ export class AnimalUpdate implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.clientService
-      .query()
+      .query({ size: 2000 })
       .pipe(map((res: HttpResponse<IClient[]>) => res.body ?? []))
       .pipe(map((clients: IClient[]) => this.clientService.addClientToCollectionIfMissing<IClient>(clients, this.animal?.client)))
       .subscribe((clients: IClient[]) => this.clientsSharedCollection.set(clients));

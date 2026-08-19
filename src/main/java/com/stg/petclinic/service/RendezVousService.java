@@ -36,7 +36,7 @@ public class RendezVousService {
      */
     public RendezVous save(RendezVous rendezVous) {
         LOG.debug("Request to save RendezVous : {}", rendezVous);
-        validateDate(rendezVous);
+        verifierDateNonPassee(rendezVous.getDate());
         return rendezVousRepository.save(rendezVous);
     }
 
@@ -48,7 +48,7 @@ public class RendezVousService {
      */
     public RendezVous update(RendezVous rendezVous) {
         LOG.debug("Request to update RendezVous : {}", rendezVous);
-        validateDate(rendezVous);
+        verifierDateNonPassee(rendezVous.getDate());
         return rendezVousRepository.save(rendezVous);
     }
 
@@ -61,6 +61,10 @@ public class RendezVousService {
     public Optional<RendezVous> partialUpdate(RendezVous rendezVous) {
         LOG.debug("Request to partially update a rendezVous : {}", rendezVous);
 
+        if (rendezVous.getDate() != null) {
+            verifierDateNonPassee(rendezVous.getDate());
+        }
+
         return rendezVousRepository
             .findById(rendezVous.getId())
             .map(existingRendezVous -> {
@@ -68,7 +72,7 @@ public class RendezVousService {
                 updateIfPresent(existingRendezVous::setMotif, rendezVous.getMotif());
                 updateIfPresent(existingRendezVous::setDuree, rendezVous.getDuree());
 
-                validateDate(existingRendezVous);
+                verifierDateNonPassee(existingRendezVous.getDate());
 
                 return existingRendezVous;
             })
@@ -125,13 +129,13 @@ public class RendezVousService {
     }
 
     /**
-     * Validate that the appointment date is not in the past.
+     * Vérifie que la date du rendez-vous n'est pas dans le passé.
      *
-     * @param rendezVous the appointment to validate.
+     * @param dateRdv la date du rendez-vous à vérifier.
      */
-    private void validateDate(RendezVous rendezVous) {
-        if (rendezVous.getDate() != null && rendezVous.getDate().isBefore(Instant.now())) {
-            throw new IllegalArgumentException("La date du rendez-vous ne peut pas être dans le passé.");
+    private void verifierDateNonPassee(Instant dateRdv) {
+        if (dateRdv != null && dateRdv.isBefore(Instant.now())) {
+            throw new RendezVousDatePasseeException();
         }
     }
 
