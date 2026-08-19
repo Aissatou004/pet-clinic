@@ -72,7 +72,7 @@
             @if (!editForm.get('animal')!.value) {
             <option [ngValue]="null" selected></option>
             } @for (animalOption of animalsSharedCollection(); track $index) {
-            <option [ngValue]="animalOption">{{ animalOption.id }}</option>
+            <option [ngValue]="animalOption">{{ animalOption.nom }}</option>
             }
           </select>
         </div>
