@@ -17,7 +17,7 @@ public interface MedecinRepository extends JpaRepository<Medecin, Long> {
         """
         select m from Medecin m
         where (:cliniqueId is null or m.clinique.id = :cliniqueId)
-        and (:specialite is null or lower(m.specialite) like lower(concat('%', :specialite, '%')))
+        and (:specialite is null or lower(m.specialite) like lower(concat('%', cast(:specialite as string), '%')))
         """
     )
     Page<Medecin> findByFilters(@Param("cliniqueId") Long cliniqueId, @Param("specialite") String specialite, Pageable pageable);
