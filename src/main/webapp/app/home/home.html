@@ -154,7 +154,6 @@
             <th>Durée</th>
             <th>Clinique</th>
             <th>Animal</th>
-            <th>Propriétaire</th>
             <th>Médecin Référent</th>
             <th>Motif</th>
             <th class="text-end pe-4">Actions</th>
@@ -174,7 +173,13 @@
                 </div>
               </div>
             </td>
-            <td>{{rv.animal?.client?.prenom}} {{rv.animal?.client?.nom}}</td>
+            <td>
+              @if (rv.medecin; as medecin) {
+              <span>Dr. {{ medecin.nom }}</span>
+              } @else {
+              <span class="text-muted">-</span>
+              }
+            </td>
             <td>{{rv.motif}}</td>
             <td class="text-end pe-4">
               <button class="btn btn-sm btn-light rounded-circle" title="Voir détails">👁️</button>
