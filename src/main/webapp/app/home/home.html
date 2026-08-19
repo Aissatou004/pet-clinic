@@ -82,7 +82,11 @@
         <div class="card-body d-flex align-items-center p-3">
           <div>
             <div class="text-muted small fw-semibold">RDV AUJOURD'HUI</div>
-            <div class="h3 fw-bold mb-0 text-dark">8</div>
+            <div class="h3 fw-bold mb-0 text-dark">
+              @if (isLoadingRendezVous()) {
+              <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
+              } @else { {{ totalRendezVous() }} }
+            </div>
           </div>
         </div>
       </div>
@@ -135,44 +139,26 @@
           </tr>
         </thead>
         <tbody>
+          @for(rv of rendezVousToday(); track rv.id) {
           <tr>
-            <td class="ps-4 fw-bold text-primary">18/08/2026 — 09:00</td>
-            <td><span class="badge bg-light text-dark border">30 min</span></td>
-            <td><span class="fw-semibold text-dark">Clinique Centre-Ville</span></td>
+            <td class="ps-4 fw-bold text-primary">{{rv.date}} — {{rv.date }}</td>
+            <td><span class="badge bg-light text-dark border">{{rv.duree}} mins</span></td>
+            <td><span class="fw-semibold text-dark">{{rv.clinique?.nom}}</span></td>
             <td>
               <div class="d-flex align-items-center">
                 <div>
-                  <div class="fw-bold text-dark">Rex</div>
-                  <div class="text-muted small">Berger Allemand</div>
+                  <div class="fw-bold text-dark">{{rv.animal?.nom}}</div>
+                  <div class="text-muted small">{{rv.animal?.espece}}</div>
                 </div>
               </div>
             </td>
-            <td>Jean Dupont</td>
-            <td>Dr. Martin</td>
-            <td>Vaccination annuelle</td>
+            <td>{{rv.animal?.client?.prenom}} {{rv.animal?.client?.nom}}</td>
+            <td>{{rv.motif}}</td>
             <td class="text-end pe-4">
               <button class="btn btn-sm btn-light rounded-circle" title="Voir détails">👁️</button>
             </td>
           </tr>
-          <tr>
-            <td class="ps-4 fw-bold text-primary">18/08/2026 — 10:30</td>
-            <td><span class="badge bg-light text-dark border">45 min</span></td>
-            <td><span class="fw-semibold text-dark">Clinique Saint-Hubert</span></td>
-            <td>
-              <div class="d-flex align-items-center">
-                <div>
-                  <div class="fw-bold text-dark">Mina</div>
-                  <div class="text-muted small">Siamois</div>
-                </div>
-              </div>
-            </td>
-            <td>Sophie Bernard</td>
-            <td>Dr. Lefebvre</td>
-            <td>Consultation Dermatologie</td>
-            <td class="text-end pe-4">
-              <button class="btn btn-sm btn-light rounded-circle" title="Voir détails">👁️</button>
-            </td>
-          </tr>
+          }
         </tbody>
       </table>
     </div>
