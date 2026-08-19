@@ -10,6 +10,9 @@ import { createRequestOption } from 'app/core/request/request-util';
 import { isPresent } from 'app/core/util/operators';
 import { IAnimal, NewAnimal } from '../animal.model';
 
+export type EntityResponseType = HttpResponse<IAnimal>;
+export type EntityArrayResponseType = HttpResponse<IAnimal[]>;
+
 export type PartialUpdateAnimal = Partial<IAnimal> & Pick<IAnimal, 'id'>;
 
 type RestOf<T extends IAnimal | NewAnimal> = Omit<T, 'dateNaissance'> & {
@@ -34,10 +37,7 @@ export class AnimalsService {
     }
     return { url: this.resourceUrl, params };
   });
-  /**
-   * This signal holds the list of animal that have been fetched. It is updated when the animalsResource emits a new value.
-   * In case of error while fetching the animals, the signal is set to an empty array.
-   */
+
   readonly animals = computed(() =>
     (this.animalsResource.hasValue() ? this.animalsResource.value() : []).map(item => this.convertValueFromServer(item)),
   );
@@ -77,6 +77,12 @@ export class AnimalService extends AnimalsService {
 
   find(id: number): Observable<IAnimal> {
     return this.http.get<RestAnimal>(`${this.resourceUrl}/${encodeURIComponent(id)}`).pipe(map(res => this.convertResponseFromServer(res)));
+  }
+
+  findByClient(clientId: number): Observable<EntityArrayResponseType> {
+    return this.http
+      .get<RestAnimal[]>(`${this.resourceUrl}/client/${clientId}`, { observe: 'response' })
+      .pipe(map(res => res.clone({ body: res.body ? this.convertResponseArrayFromServer(res.body) : [] })));
   }
 
   query(req?: any): Observable<HttpResponse<IAnimal[]>> {

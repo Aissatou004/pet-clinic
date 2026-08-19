@@ -163,6 +163,16 @@ public class AnimalResource {
     }
 
     /**
+     * {@code GET  /animals/client/:clientId} : get all animals for a specific client.
+     */
+    @GetMapping("/client/{clientId}")
+    public ResponseEntity<List<Animal>> getAnimalsByClient(@PathVariable Long clientId) {
+        LOG.debug("REST request to get Animals by client ID : {}", clientId);
+        List<Animal> animals = animalRepository.findByClientId(clientId);
+        return ResponseEntity.ok().body(animals);
+    }
+
+    /**
      * {@code DELETE  /animals/:id} : delete the "id" animal.
      *
      * @param id the id of the animal to delete.

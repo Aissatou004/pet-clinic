@@ -29,10 +29,12 @@ public class Client implements Serializable {
     private Long id;
 
     @NotBlank
+    @Size(min = 2, max = 30)
     @Column(name = "nom", nullable = false)
     private String nom;
 
     @NotBlank
+    @Size(min = 2, max = 50)
     @Column(name = "prenom", nullable = false)
     private String prenom;
 
@@ -40,6 +42,7 @@ public class Client implements Serializable {
     private String adresse;
 
     @NotBlank
+    @Pattern(regexp = "^(70|75|76|77|78)\\d{7}$")
     @Column(name = "telephone", nullable = false)
     private String telephone;
 
