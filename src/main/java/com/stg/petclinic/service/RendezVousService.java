@@ -2,6 +2,7 @@ package com.stg.petclinic.service;
 
 import com.stg.petclinic.domain.RendezVous;
 import com.stg.petclinic.repository.RendezVousRepository;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -36,6 +37,7 @@ public class RendezVousService {
      */
     public RendezVous save(RendezVous rendezVous) {
         LOG.debug("Request to save RendezVous : {}", rendezVous);
+        verifierDateNonPassee(rendezVous.getDate());
         return rendezVousRepository.save(rendezVous);
     }
 
@@ -47,6 +49,7 @@ public class RendezVousService {
      */
     public RendezVous update(RendezVous rendezVous) {
         LOG.debug("Request to update RendezVous : {}", rendezVous);
+        verifierDateNonPassee(rendezVous.getDate());
         return rendezVousRepository.save(rendezVous);
     }
 
@@ -58,6 +61,10 @@ public class RendezVousService {
      */
     public Optional<RendezVous> partialUpdate(RendezVous rendezVous) {
         LOG.debug("Request to partially update RendezVous : {}", rendezVous);
+
+        if (rendezVous.getDate() != null) {
+            verifierDateNonPassee(rendezVous.getDate());
+        }
 
         return rendezVousRepository
             .findById(rendezVous.getId())
@@ -115,6 +122,17 @@ public class RendezVousService {
     public void delete(Long id) {
         LOG.debug("Request to delete RendezVous : {}", id);
         rendezVousRepository.deleteById(id);
+    }
+
+    /**
+     * Vérifie que la date du rendez-vous n'est pas dans le passé.
+     *
+     * @param dateRdv la date du rendez-vous à vérifier.
+     */
+    private void verifierDateNonPassee(Instant dateRdv) {
+        if (dateRdv != null && dateRdv.isBefore(Instant.now())) {
+            throw new RendezVousDatePasseeException();
+        }
     }
 
     private <T> void updateIfPresent(Consumer<T> setter, T value) {
