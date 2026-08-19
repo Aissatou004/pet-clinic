@@ -24,6 +24,17 @@
 
   <jhi-alert />
 
+  <!-- filtre par espece  -->
+  <div class="mb-3">
+    <label for="especeFilter" class="form-label" jhiTranslate="petclinicApp.animal.filterByEspece">Filtrer par espèce</label>
+    <select id="especeFilter" class="form-select w-auto" (change)="filtrerParEspece($any($event.target).value)">
+      <option value="" jhiTranslate="petclinicApp.animal.allEspeces">Toutes espèces</option>
+      @for (e of especes; track e) {
+      <option [value]="e" [jhiTranslate]="'petclinicApp.Espece.' + e">{{ e }}</option>
+      }
+    </select>
+  </div>
+
   @if (animals().length === 0) {
   <div class="alert alert-warning" id="no-result">
     <span jhiTranslate="petclinicApp.animal.home.notFound">Aucun Animal trouvé</span>
