@@ -24,6 +24,35 @@
 
   <jhi-alert />
 
+  <!-- Barre de recherche par nom / prénom -->
+  <div class="row mb-3">
+    <div class="col-sm-12">
+      <form name="searchForm" class="form-inline">
+        <div class="input-group w-100 mt-2">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="currentSearch"
+            id="currentSearch"
+            name="currentSearch"
+            placeholder="Rechercher un client par nom ou prénom..."
+            (keyup.enter)="search(currentSearch)"
+          />
+
+          <button class="btn btn-info" type="button" (click)="search(currentSearch)">
+            <fa-icon icon="search" />
+            <span>Rechercher</span>
+          </button>
+
+          <button class="btn btn-danger" type="button" (click)="clearSearch()" *ngIf="currentSearch">
+            <fa-icon icon="trash-alt" />
+            <span>Effacer</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   @if (clients().length === 0) {
   <div class="alert alert-warning" id="no-result">
     <span jhiTranslate="petclinicApp.client.home.notFound">Aucun Client trouvé</span>
