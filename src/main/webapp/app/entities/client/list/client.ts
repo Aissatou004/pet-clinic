@@ -20,6 +20,7 @@ import { IClient } from '../client.model';
 import { ClientDeleteDialog } from '../delete/client-delete-dialog';
 import { ClientService } from '../service/client.service';
 
+import { UpperCasePipe, TitleCasePipe } from '@angular/common';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'jhi-client',
@@ -36,6 +37,8 @@ import { ClientService } from '../service/client.service';
     TranslatePipe,
     NgbPagination,
     ItemCount,
+    UpperCasePipe,
+    TitleCasePipe,
   ],
 })
 export class Client implements OnInit {
