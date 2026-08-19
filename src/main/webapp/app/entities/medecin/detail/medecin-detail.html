@@ -39,7 +39,7 @@
         <dd>
           @if (medecin()!.clinique) {
           <div>
-            <a [routerLink]="['/clinique', medecin()!.clinique?.id, 'view']">{{ medecinRef.clinique?.id }}</a>
+            <a [routerLink]="['/clinique', medecin()!.clinique?.id, 'view']">{{ medecinRef.clinique?.nom }}</a>
           </div>
           }
         </dd>

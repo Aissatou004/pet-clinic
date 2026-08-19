@@ -95,7 +95,7 @@
             @if (editForm.get(['clinique'])!.value === null) {
             <option [ngValue]="null" selected></option>
             } @for (cliniqueOption of cliniquesSharedCollection(); track $index) {
-            <option [ngValue]="cliniqueOption">{{ cliniqueOption.id }}</option>
+            <option [ngValue]="cliniqueOption">{{ cliniqueOption.nom }}</option>
             }
           </select>
         </div>
