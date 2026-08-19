@@ -86,7 +86,7 @@ export class Medecin implements OnInit {
       .subscribe();
 
     this.cliniqueService
-      .query()
+      .query({ size: 9999 })
       .pipe(map((res: HttpResponse<IClinique[]>) => res.body ?? []))
       .subscribe((cliniques: IClinique[]) => this.cliniquesForFilter.set(cliniques));
   }
