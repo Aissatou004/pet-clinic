@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface AnimalRepository extends JpaRepository<Animal, Long> {
+public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecificationExecutor<Animal> {
     List<Animal> findByClientId(Long clientId);
 }
