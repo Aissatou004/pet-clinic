@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, Component, input, inject, effect, computed } f
 import { RouterLink } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { TranslatePipe } from '@ngx-translate/core';
-
+import { DecimalPipe } from '@angular/common';
 import { Alert } from 'app/shared/alert/alert';
 import { AlertError } from 'app/shared/alert/alert-error';
 import { FormatMediumDatePipe } from 'app/shared/date';
@@ -15,7 +14,7 @@ import { PeserAnimalService } from '../../peser-animal/service/peser-animal.serv
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'jhi-animal-detail',
   templateUrl: './animal-detail.html',
-  imports: [FontAwesomeModule, Alert, AlertError, TranslateDirective, TranslatePipe, RouterLink, FormatMediumDatePipe],
+  imports: [FontAwesomeModule, Alert, AlertError, TranslateDirective, RouterLink, FormatMediumDatePipe, DecimalPipe],
 })
 export class AnimalDetail {
   readonly animal = input<IAnimal | null>(null);
