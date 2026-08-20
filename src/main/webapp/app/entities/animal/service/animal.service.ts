@@ -9,6 +9,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { createRequestOption } from 'app/core/request/request-util';
 import { isPresent } from 'app/core/util/operators';
 import { IAnimal, NewAnimal } from '../animal.model';
+import { Animal } from '../list/animal';
 
 export type EntityResponseType = HttpResponse<IAnimal>;
 export type EntityArrayResponseType = HttpResponse<IAnimal[]>;
@@ -137,5 +138,14 @@ export class AnimalService extends AnimalsService {
 
   protected convertResponseArrayFromServer(res: RestAnimal[]): IAnimal[] {
     return res.map(item => this.convertValueFromServer(item));
+  }
+
+  private readonly baseUrl = 'api/animals';
+
+  countTotal(): Observable<HttpResponse<IAnimal[]>> {
+    return this.http.get<IAnimal[]>(this.baseUrl, {
+      params: { page: '0', size: '1' },
+      observe: 'response',
+    });
   }
 }
