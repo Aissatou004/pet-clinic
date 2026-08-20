@@ -9,10 +9,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stg.petclinic.IntegrationTest;
+import com.stg.petclinic.domain.Animal;
+import com.stg.petclinic.domain.Client;
 import com.stg.petclinic.domain.Clinique;
 import com.stg.petclinic.domain.Medecin;
+import com.stg.petclinic.domain.RendezVous;
+import com.stg.petclinic.domain.enumeration.Espece;
+import com.stg.petclinic.domain.enumeration.Sexe;
 import com.stg.petclinic.repository.MedecinRepository;
 import jakarta.persistence.EntityManager;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.AfterEach;
@@ -613,6 +621,53 @@ class MedecinResourceIT {
 
         // Validate the database contains one less item
         assertDecrementedRepositoryCount(databaseSizeBeforeDelete);
+    }
+
+    @Test
+    @Transactional
+    void deleteMedecinWithRendezVousShouldFail() throws Exception {
+        // Initialize the database
+        insertedMedecin = medecinRepository.saveAndFlush(medecin);
+
+        // Attach a rendez-vous to this medecin
+        // NB: built manually rather than via ClientResourceIT/AnimalResourceIT.createEntity() because the
+        // default test telephone no longer matches Client's validation pattern (unrelated regression from G3).
+        Client client = new Client()
+            .nom("Test")
+            .prenom("Client")
+            .adresse("1 rue du Test")
+            .telephone("781234567")
+            .email("test.client@petclinic.fr");
+        em.persist(client);
+        Animal animal = new Animal()
+            .nom("Rex")
+            .espece(Espece.CHIEN)
+            .dateNaissance(LocalDate.now().minusYears(2))
+            .sexe(Sexe.MALE)
+            .client(client);
+        em.persist(animal);
+        RendezVous rendezVous = new RendezVous()
+            .date(Instant.now().plus(1, ChronoUnit.DAYS))
+            .motif("Consultation")
+            .duree(30.0)
+            .animal(animal)
+            .clinique(medecin.getClinique())
+            .medecin(medecin);
+        em.persist(rendezVous);
+        em.flush();
+
+        long databaseSizeBeforeDelete = getRepositoryCount();
+
+        // Attempt to delete the medecin: must fail with a clear error, not a raw 500
+        restMedecinMockMvc
+            .perform(delete(ENTITY_API_URL_ID, medecin.getId()).accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value("error.medecinAvecRendezVous"));
+
+        // Validate the medecin was not deleted
+        assertSameRepositoryCount(databaseSizeBeforeDelete);
+
+        em.remove(rendezVous);
     }
 
     protected long getRepositoryCount() {
