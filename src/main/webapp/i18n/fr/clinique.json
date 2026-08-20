@@ -8,6 +8,10 @@
         "createOrEditLabel": "Créer ou éditer une Clinique",
         "notFound": "Aucun Clinique trouvé"
       },
+      "search": {
+        "label": "Rechercher une clinique",
+        "placeholder": "Nom de la clinique, adresse, ville..."
+      },
       "created": "Une nouvelle Clinique a été créée avec l'identifiant {{ param }}",
       "updated": "La Clinique avec l'identifiant {{ param }} a été mise à jour",
       "deleted": "La Clinique avec l'identifiant {{ param }} a été supprimée",
