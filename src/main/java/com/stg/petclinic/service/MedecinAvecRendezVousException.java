@@ -1,6 +1,6 @@
 package com.stg.petclinic.service;
 
-import com.stg.petclinic.web.rest.errors.ErrorConstants;
+import java.net.URI;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.ErrorResponseException;
 import tech.jhipster.web.rest.errors.ProblemDetailWithCause;
@@ -12,6 +12,10 @@ import tech.jhipster.web.rest.errors.ProblemDetailWithCause.ProblemDetailWithCau
  */
 public class MedecinAvecRendezVousException extends ErrorResponseException {
 
+    // Duplicated from ErrorConstants.DEFAULT_TYPE (web layer) rather than imported, to keep the
+    // service layer from depending on the web layer (see TechnicalStructureTest architecture rule).
+    private static final URI DEFAULT_TYPE = URI.create("https://www.jhipster.tech/problem/problem-with-message");
+
     public MedecinAvecRendezVousException() {
         super(HttpStatus.BAD_REQUEST, asProblemDetail(), null);
     }
@@ -19,7 +23,7 @@ public class MedecinAvecRendezVousException extends ErrorResponseException {
     private static ProblemDetailWithCause asProblemDetail() {
         return ProblemDetailWithCauseBuilder.instance()
             .withStatus(HttpStatus.BAD_REQUEST.value())
-            .withType(ErrorConstants.DEFAULT_TYPE)
+            .withType(DEFAULT_TYPE)
             .withTitle("Suppression impossible")
             .withDetail("Impossible de supprimer un médecin ayant des rendez-vous rattachés.")
             .withProperty("message", "error.medecinAvecRendezVous")
