@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, inject, effect, computed } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
