@@ -3,9 +3,12 @@ package com.stg.petclinic.service;
 import com.stg.petclinic.domain.RendezVous;
 import com.stg.petclinic.repository.RendezVousRepository;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -59,7 +62,7 @@ public class RendezVousService {
      * @return the persisted entity.
      */
     public Optional<RendezVous> partialUpdate(RendezVous rendezVous) {
-        LOG.debug("Request to partially update a rendezVous : {}", rendezVous);
+        LOG.debug("Request to partially update RendezVous : {}", rendezVous);
 
         if (rendezVous.getDate() != null) {
             verifierDateNonPassee(rendezVous.getDate());
@@ -71,8 +74,6 @@ public class RendezVousService {
                 updateIfPresent(existingRendezVous::setDate, rendezVous.getDate());
                 updateIfPresent(existingRendezVous::setMotif, rendezVous.getMotif());
                 updateIfPresent(existingRendezVous::setDuree, rendezVous.getDuree());
-
-                verifierDateNonPassee(existingRendezVous.getDate());
 
                 return existingRendezVous;
             })
@@ -92,16 +93,27 @@ public class RendezVousService {
     }
 
     /**
-     * Get all the rendezVouses where PeserAnimal is {@code null}.
+     * Récupère tous les rendez-vous du jour (utilisé par le dashboard, cf. G6).
      *
-     * @return the list of entities.
+     * @return la liste des rendez-vous prévus aujourd'hui.
+     */
+    @Transactional(readOnly = true)
+    public List<RendezVous> findRendezVousDuJour() {
+        LOG.debug("Request to get today's RendezVouses");
+        LocalDate aujourdHui = LocalDate.now();
+        Instant debutJournee = aujourdHui.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant finJournee = aujourdHui.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+        return rendezVousRepository.findByDateBetween(debutJournee, finJournee);
+    }
+
+    /**
+     *  Get all the rendezVouses where PeserAnimal is {@code null}.
+     *  @return the list of entities.
      */
     @Transactional(readOnly = true)
     public List<RendezVous> findAllWherePeserAnimalIsNull() {
         LOG.debug("Request to get all rendezVouses where PeserAnimal is null");
-        return rendezVousRepository
-            .findAll()
-            .stream()
+        return StreamSupport.stream(rendezVousRepository.findAll().spliterator(), false)
             .filter(rendezVous -> rendezVous.getPeserAnimal() == null)
             .toList();
     }
