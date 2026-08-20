@@ -22,6 +22,7 @@
       "espece": "Espece",
       "dateNaissance": "Date Naissance",
       "sexe": "Sexe",
+      "dernierPoids": "Dernier poids",
       "client": "Client"
     }
   }
