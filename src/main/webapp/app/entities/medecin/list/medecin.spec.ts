@@ -168,6 +168,129 @@ describe('Medecin Management Component', () => {
     expect(service.medecinsParams()).toMatchObject(expect.objectContaining({ sort: ['id,desc'] }));
   });
 
+  describe('filters', () => {
+    it('should load cliniques for the filter dropdown', async () => {
+      // WHEN
+      TestBed.tick();
+      const cliniquesReq = httpMock.expectOne(r => r.url.includes('cliniques'));
+      cliniquesReq.flush([{ id: 1, nom: 'Clinique A' }]);
+      httpMock.expectOne(r => r.url.includes('medecins'));
+      await vitest.runAllTimersAsync();
+
+      // THEN
+      expect(comp.cliniquesForFilter()).toEqual([{ id: 1, nom: 'Clinique A' }]);
+    });
+
+    it('should update cliniqueFilter and navigate on clinique filter change', () => {
+      // WHEN
+      comp.onCliniqueFilterChange('5');
+
+      // THEN
+      expect(comp.cliniqueFilter()).toBe(5);
+      expect(routerNavigateSpy).toHaveBeenLastCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          queryParams: expect.objectContaining({ page: 1, cliniqueId: 5 }),
+        }),
+      );
+    });
+
+    it('should clear cliniqueFilter when selecting the empty option', () => {
+      // GIVEN
+      comp.onCliniqueFilterChange('5');
+
+      // WHEN
+      comp.onCliniqueFilterChange('');
+
+      // THEN
+      expect(comp.cliniqueFilter()).toBeNull();
+      expect(routerNavigateSpy).toHaveBeenLastCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          queryParams: expect.objectContaining({ cliniqueId: null }),
+        }),
+      );
+    });
+
+    it('should trim and update specialiteFilter and navigate on specialite filter change', () => {
+      // WHEN
+      comp.onSpecialiteFilterChange('  cardio  ');
+
+      // THEN
+      expect(comp.specialiteFilter()).toBe('cardio');
+      expect(routerNavigateSpy).toHaveBeenLastCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          queryParams: expect.objectContaining({ page: 1, specialite: 'cardio' }),
+        }),
+      );
+    });
+
+    it('should include cliniqueId and specialite in the backend query when set', () => {
+      // GIVEN
+      comp.cliniqueFilter.set(7);
+      comp.specialiteFilter.set('dermato');
+
+      // WHEN
+      comp.load();
+
+      // THEN
+      expect(service.medecinsParams()).toMatchObject(expect.objectContaining({ cliniqueId: 7, specialite: 'dermato' }));
+    });
+
+    it('should not include cliniqueId or specialite in the backend query when unset', () => {
+      // WHEN
+      comp.load();
+
+      // THEN
+      expect(service.medecinsParams()).not.toHaveProperty('cliniqueId');
+      expect(service.medecinsParams()).not.toHaveProperty('specialite');
+    });
+  });
+
+  describe('filters restored from route', () => {
+    beforeEach(() => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [
+          provideTranslateService(),
+          provideHttpClientTesting(),
+          {
+            provide: ActivatedRoute,
+            useValue: {
+              data: of({ defaultSort: 'id,asc' }),
+              queryParamMap: of(
+                convertToParamMap({
+                  page: '1',
+                  sort: 'id,desc',
+                  cliniqueId: '3',
+                  specialite: 'cardio',
+                }),
+              ),
+              snapshot: { queryParams: {}, queryParamMap: convertToParamMap({}) },
+            },
+          },
+        ],
+      });
+      fixture = TestBed.createComponent(Medecin);
+      comp = fixture.componentInstance;
+      const library = TestBed.inject(FaIconLibrary);
+      library.addIcons(faEye, faPencilAlt, faPlus, faSort, faSortDown, faSortUp, faSync, faTimes);
+      httpMock = TestBed.inject(HttpTestingController);
+    });
+
+    it('should restore cliniqueFilter and specialiteFilter from the URL', () => {
+      // WHEN
+      TestBed.tick();
+      httpMock.expectOne(r => r.url.includes('cliniques')).flush([]);
+      httpMock.expectOne(r => r.url.includes('medecins'));
+
+      // THEN
+      expect(comp.cliniqueFilter()).toBe(3);
+      expect(comp.specialiteFilter()).toBe('cardio');
+    });
+  });
+
   describe('delete', () => {
     let ngbModal: NgbModal;
     let deleteModalMock: any;
