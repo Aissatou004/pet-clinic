@@ -275,6 +275,112 @@ class MedecinResourceIT {
 
     @Test
     @Transactional
+    void getAllMedecinsByCliniqueIdFilter() throws Exception {
+        // Initialize the database with a medecin attached to its own clinique
+        insertedMedecin = medecinRepository.saveAndFlush(medecin);
+
+        // Create a second medecin attached to a different clinique
+        Clinique otherClinique = CliniqueResourceIT.createUpdatedEntity();
+        em.persist(otherClinique);
+        em.flush();
+        Medecin otherMedecin = new Medecin()
+            .nom(UPDATED_NOM)
+            .prenom(UPDATED_PRENOM)
+            .specialite(UPDATED_SPECIALITE)
+            .email(UPDATED_EMAIL)
+            .telephone(UPDATED_TELEPHONE)
+            .clinique(otherClinique);
+        medecinRepository.saveAndFlush(otherMedecin);
+
+        // Filter by the first medecin's clinique: only it should be returned
+        restMedecinMockMvc
+            .perform(get(ENTITY_API_URL + "?cliniqueId=" + medecin.getClinique().getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(medecin.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(org.hamcrest.Matchers.not(hasItem(otherMedecin.getId().intValue()))));
+
+        medecinRepository.delete(otherMedecin);
+    }
+
+    @Test
+    @Transactional
+    void getAllMedecinsBySpecialiteFilter() throws Exception {
+        // Initialize the database
+        insertedMedecin = medecinRepository.saveAndFlush(medecin);
+
+        // Filter with a partial, differently-cased match: should still find it
+        String partialLowerCase = DEFAULT_SPECIALITE.substring(0, 4).toLowerCase();
+        restMedecinMockMvc
+            .perform(get(ENTITY_API_URL + "?specialite=" + partialLowerCase))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(medecin.getId().intValue())));
+
+        // Filter with a specialite that does not match: should not find it
+        restMedecinMockMvc
+            .perform(get(ENTITY_API_URL + "?specialite=zzz-inexistant"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(org.hamcrest.Matchers.not(hasItem(medecin.getId().intValue()))));
+    }
+
+    @Test
+    @Transactional
+    void getAllMedecinsByCliniqueIdAndSpecialiteCombinedFilter() throws Exception {
+        // medecinA matches both filters
+        Medecin medecinA = (insertedMedecin = medecinRepository.saveAndFlush(medecin));
+
+        // medecinB matches the specialite filter but belongs to a different clinique
+        Clinique otherClinique = CliniqueResourceIT.createUpdatedEntity();
+        em.persist(otherClinique);
+        em.flush();
+        Medecin medecinB = new Medecin()
+            .nom(UPDATED_NOM)
+            .prenom(UPDATED_PRENOM)
+            .specialite(DEFAULT_SPECIALITE)
+            .email(UPDATED_EMAIL)
+            .telephone(UPDATED_TELEPHONE)
+            .clinique(otherClinique);
+        medecinRepository.saveAndFlush(medecinB);
+
+        // medecinC belongs to the same clinique but has a different specialite
+        Medecin medecinC = new Medecin()
+            .nom(UPDATED_NOM)
+            .prenom(UPDATED_PRENOM)
+            .specialite(UPDATED_SPECIALITE)
+            .email("other." + UPDATED_EMAIL)
+            .telephone(UPDATED_TELEPHONE)
+            .clinique(medecinA.getClinique());
+        medecinRepository.saveAndFlush(medecinC);
+
+        String partialLowerCase = DEFAULT_SPECIALITE.substring(0, 4).toLowerCase();
+        restMedecinMockMvc
+            .perform(get(ENTITY_API_URL + "?cliniqueId=" + medecinA.getClinique().getId() + "&specialite=" + partialLowerCase))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(medecinA.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(org.hamcrest.Matchers.not(hasItem(medecinB.getId().intValue()))))
+            .andExpect(jsonPath("$.[*].id").value(org.hamcrest.Matchers.not(hasItem(medecinC.getId().intValue()))));
+
+        medecinRepository.delete(medecinB);
+        medecinRepository.delete(medecinC);
+    }
+
+    @Test
+    @Transactional
+    void getAllMedecinsByNonExistentCliniqueIdFilter() throws Exception {
+        insertedMedecin = medecinRepository.saveAndFlush(medecin);
+
+        restMedecinMockMvc
+            .perform(get(ENTITY_API_URL + "?cliniqueId=999999999"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(org.hamcrest.Matchers.not(hasItem(medecin.getId().intValue()))));
+    }
+
+    @Test
+    @Transactional
     void getMedecin() throws Exception {
         // Initialize the database
         insertedMedecin = medecinRepository.saveAndFlush(medecin);
