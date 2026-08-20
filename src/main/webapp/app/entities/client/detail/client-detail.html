@@ -41,13 +41,13 @@
         <span>Animaux du client</span>
       </h3>
 
-      @if (animals().length === 0) {
+      @if (!clientRef.animals || clientRef.animals.length === 0) {
       <div class="alert alert-info">
         <span>Aucun animal rattaché à ce client.</span>
       </div>
       } @else {
       <div class="row row-cols-1 row-cols-md-2 g-3 mb-4">
-        @for (animal of animals(); track animal.id) {
+        @for (animal of clientRef.animals; track animal.id) {
         <div class="col">
           <div class="card h-100 border-primary shadow-sm">
             <div class="card-body">

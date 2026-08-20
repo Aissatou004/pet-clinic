@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, inject, effect, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
+// CORRECTION : Import du DecimalPipe depuis @angular/common pour le filtre | number
+import { DecimalPipe } from '@angular/common';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -15,7 +17,8 @@ import { PeserAnimalService } from '../../peser-animal/service/peser-animal.serv
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'jhi-animal-detail',
   templateUrl: './animal-detail.html',
-  imports: [FontAwesomeModule, Alert, AlertError, TranslateDirective, TranslatePipe, RouterLink, FormatMediumDatePipe],
+  // CORRECTION : Ajout de DecimalPipe dans le tableau des imports
+  imports: [DecimalPipe, FontAwesomeModule, Alert, AlertError, TranslateDirective, TranslatePipe, RouterLink, FormatMediumDatePipe],
 })
 export class AnimalDetail {
   readonly animal = input<IAnimal | null>(null);

@@ -10,11 +10,10 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the Client entity.
  */
-@SuppressWarnings("unused")
 @Repository
-public interface ClientRepository extends JpaRepository<Client, Long> {
+public interface ClientRepository extends JpaRepository<Client, Long>, JpaSpecificationExecutor<Client> {
     @Query(
-        "select c from Client c where lower(c.nom) like lower(concat('%', :query, '%')) or lower(c.prenom) like lower(concat('%', :query, '%'))"
+        "select client from Client client where lower(client.nom) like lower(concat('%', :query, '%')) or lower(client.prenom) like lower(concat('%', :query, '%'))"
     )
     Page<Client> searchByName(@Param("query") String query, Pageable pageable);
 }
