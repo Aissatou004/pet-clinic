@@ -4,15 +4,15 @@
       "home": {
         "title": "Cliniques",
         "refreshListLabel": "Actualiser la liste",
-        "createLabel": "Créer un nouveau Clinique",
-        "createOrEditLabel": "Créer ou éditer un Clinique",
+        "createLabel": "Créer une nouvelle Clinique",
+        "createOrEditLabel": "Créer ou éditer une Clinique",
         "notFound": "Aucun Clinique trouvé"
       },
-      "created": "Un nouveau Clinique a été créé avec l'identifiant {{ param }}",
-      "updated": "Le Clinique avec l'identifiant {{ param }} a été mis à jour",
-      "deleted": "Le Clinique avec l'identifiant {{ param }} a été supprimé",
+      "created": "Une nouvelle Clinique a été créée avec l'identifiant {{ param }}",
+      "updated": "La Clinique avec l'identifiant {{ param }} a été mise à jour",
+      "deleted": "La Clinique avec l'identifiant {{ param }} a été supprimée",
       "delete": {
-        "question": "Êtes-vous certain de vouloir supprimer le Clinique {{ id }} ?"
+        "question": "Êtes-vous certain de vouloir supprimer la Clinique {{ id }} ?"
       },
       "detail": {
         "title": "Clinique"
