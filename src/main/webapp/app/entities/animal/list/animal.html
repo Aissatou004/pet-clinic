@@ -26,7 +26,7 @@
 
   <!-- filtre par espece  -->
   <div class="mb-3">
-    <label for="especeFilter" class="form-label" jhiTranslate="petclinicApp.animal.filterByEspece">Filtrer par espèce</label>
+    <!--    <label for="especeFilter" class="form-label" jhiTranslate="petclinicApp.animal.filterByEspece">Filtrer par espèce</label>-->
     <select id="especeFilter" class="form-select w-auto" (change)="filtrerParEspece($any($event.target).value)">
       <option value="" jhiTranslate="petclinicApp.animal.allEspeces">Toutes espèces</option>
       @for (e of especes; track e) {
