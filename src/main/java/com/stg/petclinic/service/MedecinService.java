@@ -2,6 +2,7 @@ package com.stg.petclinic.service;
 
 import com.stg.petclinic.domain.Medecin;
 import com.stg.petclinic.repository.MedecinRepository;
+import com.stg.petclinic.repository.RendezVousRepository;
 import java.util.Optional;
 import java.util.function.Consumer;
 import org.slf4j.Logger;
@@ -22,8 +23,11 @@ public class MedecinService {
 
     private final MedecinRepository medecinRepository;
 
-    public MedecinService(MedecinRepository medecinRepository) {
+    private final RendezVousRepository rendezVousRepository;
+
+    public MedecinService(MedecinRepository medecinRepository, RendezVousRepository rendezVousRepository) {
         this.medecinRepository = medecinRepository;
+        this.rendezVousRepository = rendezVousRepository;
     }
 
     /**
@@ -116,6 +120,9 @@ public class MedecinService {
      */
     public void delete(Long id) {
         LOG.debug("Request to delete Medecin : {}", id);
+        if (rendezVousRepository.existsByMedecinId(id)) {
+            throw new MedecinAvecRendezVousException();
+        }
         medecinRepository.deleteById(id);
     }
 

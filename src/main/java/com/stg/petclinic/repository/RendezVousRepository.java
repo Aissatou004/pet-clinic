@@ -13,4 +13,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RendezVousRepository extends JpaRepository<RendezVous, Long> {
     List<RendezVous> findByDateBetween(Instant debut, Instant fin);
+
+    boolean existsByMedecinId(Long medecinId);
 }
