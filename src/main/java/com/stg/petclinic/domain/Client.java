@@ -51,7 +51,7 @@ public class Client implements Serializable {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "client" }, allowSetters = true)
     private Set<Animal> animals = new HashSet<>();
