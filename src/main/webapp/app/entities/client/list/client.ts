@@ -3,7 +3,8 @@ import { ChangeDetectionStrategy, Component, OnInit, effect, inject, signal } fr
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Data, ParamMap, Router, RouterLink } from '@angular/router';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { faPhone, faTrash, faEye, faPencilAlt, faPlus, faSort, faSync, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap/pagination';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -51,7 +52,7 @@ export class Client implements OnInit {
   readonly itemsPerPage = signal(ITEMS_PER_PAGE);
   readonly totalItems = signal(0);
   readonly page = signal(1);
-  currentSearch = ''; // <-- Champ de recherche
+  currentSearch = '';
 
   readonly router = inject(Router);
   protected readonly clientService = inject(ClientService);
@@ -59,8 +60,12 @@ export class Client implements OnInit {
   protected readonly activatedRoute = inject(ActivatedRoute);
   protected readonly sortService = inject(SortService);
   protected modalService = inject(NgbModal);
+  private readonly iconLibrary = inject(FaIconLibrary);
 
   constructor() {
+    // Enregistrement explicite de l'icône faPhone et des icônes courantes de la liste
+    this.iconLibrary.addIcons(faPhone, faTrash, faEye, faPencilAlt, faPlus, faSort, faSync, faSearch, faTimes);
+
     effect(() => {
       const headers = this.clientService.clientsResource.headers();
       if (headers) {

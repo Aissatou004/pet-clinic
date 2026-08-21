@@ -132,13 +132,13 @@ public class ClientResource {
 
         Optional<Client> client = clientRepository.findById(id);
 
-        // Utiliser setAnimals (et non setAnimaux)
         client.ifPresent(c -> c.setAnimals(new HashSet<>(animalRepository.findByClientId(id))));
 
         return ResponseUtil.wrapOrNotFound(client);
     }
 
     @DeleteMapping("/{id}")
+    @Transactional // <--- Ajouté pour sécuriser la suppression en cascade
     public ResponseEntity<Void> deleteClient(@PathVariable("id") Long id) {
         LOG.debug("REST request to delete Client : {}", id);
         clientService.delete(id);
