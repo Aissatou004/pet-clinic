@@ -40,6 +40,7 @@ public class RendezVousService {
     public RendezVous save(RendezVous rendezVous) {
         LOG.debug("Request to save RendezVous : {}", rendezVous);
         verifierDateNonPassee(rendezVous.getDate());
+        verifierCoherenceMedecinClinique(rendezVous);
         return rendezVousRepository.save(rendezVous);
     }
 
@@ -52,6 +53,7 @@ public class RendezVousService {
     public RendezVous update(RendezVous rendezVous) {
         LOG.debug("Request to update RendezVous : {}", rendezVous);
         verifierDateNonPassee(rendezVous.getDate());
+        verifierCoherenceMedecinClinique(rendezVous);
         return rendezVousRepository.save(rendezVous);
     }
 
@@ -148,6 +150,22 @@ public class RendezVousService {
     private void verifierDateNonPassee(Instant dateRdv) {
         if (dateRdv != null && dateRdv.isBefore(Instant.now())) {
             throw new RendezVousDatePasseeException();
+        }
+    }
+
+    /**
+     * Vérifie que le médecin du rendez-vous appartient bien à la clinique du rendez-vous.
+     *
+     * @param rendezVous le rendez-vous à vérifier.
+     */
+    private void verifierCoherenceMedecinClinique(RendezVous rendezVous) {
+        if (rendezVous.getMedecin() != null && rendezVous.getClinique() != null) {
+            Long cliniqueDuMedecinId = rendezVous.getMedecin().getClinique() != null ? rendezVous.getMedecin().getClinique().getId() : null;
+            Long cliniqueDuRdvId = rendezVous.getClinique().getId();
+
+            if (cliniqueDuMedecinId == null || !cliniqueDuMedecinId.equals(cliniqueDuRdvId)) {
+                throw new MedecinCliniqueIncoherenteException();
+            }
         }
     }
 

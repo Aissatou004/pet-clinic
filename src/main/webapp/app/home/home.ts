@@ -13,18 +13,21 @@ import { TranslateDirective } from 'app/shared/language';
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './home.html',
   styleUrl: './home.scss',
-  imports: [CommonModule, DatePipe],
+  imports: [CommonModule],
 })
 export default class Home implements OnInit {
+  today: number = Date.now();
   private readonly animalService = inject(AnimalService);
   private readonly rendezVousService = inject(RendezVousService);
+  private readonly router = inject(Router);
 
   totalAnimals = signal<number | null>(null);
   isLoadingAnimals = signal<boolean>(true);
-
   totalRendezVous = signal<number | null>(null);
-  rendezVousToday = signal<IRendezVous[]>([]);
   isLoadingRendezVous = signal<boolean>(true);
+  listeRendezVous = signal<IRendezVous[]>([]);
+  // Mode d'affichage actif : true = Tous les RDV, false = RDV du jour
+  afficherTout = signal<boolean>(false);
 
   ngOnInit(): void {
     this.loadTotalAnimals();
@@ -48,18 +51,51 @@ export default class Home implements OnInit {
   }
 
   loadRendezVous() {
+    this.afficherTout.set(false);
+    this.isLoadingRendezVous.set(true);
     this.rendezVousService.rendezVousToday().subscribe({
       next: res => {
         console.log('Données reçues du serveur :', res);
-        this.totalRendezVous.set(res.length);
-        this.rendezVousToday.set(res);
+        const data = Array.isArray(res) ? res : ((res as any)?.body ?? []);
+        this.totalRendezVous.set(data.length);
+        this.listeRendezVous.set(data);
         this.isLoadingRendezVous.set(false);
       },
       error: () => {
         this.totalRendezVous.set(0);
-        this.rendezVousToday.set([]);
+        this.listeRendezVous.set([]);
         this.isLoadingRendezVous.set(false);
       },
     });
+  }
+
+  getAllRendezVous() {
+    if (this.afficherTout()) {
+      this.loadRendezVous();
+      return;
+    }
+
+    this.isLoadingRendezVous.set(true);
+    this.rendezVousService.getAllRendezVous().subscribe({
+      next: res => {
+        console.log('Données reçues du serveur pour tous les rendez-vous :', res);
+        // Gestion si la réponse Spring est un objet Page ({ content: [...] }) ou un Array
+        const data = Array.isArray(res) ? res : ((res as any)?.content ?? (res as any)?.body ?? []);
+        this.listeRendezVous.set(data);
+        this.afficherTout.set(true);
+        this.isLoadingRendezVous.set(false);
+      },
+      error: () => {
+        this.listeRendezVous.set([]);
+        this.isLoadingRendezVous.set(false);
+      },
+    });
+  }
+
+  viewDetail(id?: number): void {
+    if (id) {
+      //premiére méthode this.router.navigate(['/rendez-vous', id, 'view']);
+      this.router.navigate([`/rendez-vous/${id}/view`]);
+    }
   }
 }
