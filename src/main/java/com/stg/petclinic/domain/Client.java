@@ -17,6 +17,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "client")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Client implements Serializable {
 
     @Serial
@@ -54,8 +55,6 @@ public class Client implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "client" }, allowSetters = true)
     private Set<Animal> animals = new HashSet<>();
-
-    // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
         return this.id;
@@ -166,8 +165,6 @@ public class Client implements Serializable {
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -181,20 +178,31 @@ public class Client implements Serializable {
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
-        return "Client{" +
-            "id=" + getId() +
-            ", nom='" + getNom() + "'" +
-            ", prenom='" + getPrenom() + "'" +
-            ", adresse='" + getAdresse() + "'" +
-            ", telephone='" + getTelephone() + "'" +
-            ", email='" + getEmail() + "'" +
-            "}";
+        return (
+            "Client{" +
+            "id=" +
+            getId() +
+            ", nom='" +
+            getNom() +
+            "'" +
+            ", prenom='" +
+            getPrenom() +
+            "'" +
+            ", adresse='" +
+            getAdresse() +
+            "'" +
+            ", telephone='" +
+            getTelephone() +
+            "'" +
+            ", email='" +
+            getEmail() +
+            "'" +
+            "}"
+        );
     }
 }
