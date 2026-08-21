@@ -10,12 +10,13 @@ import { FormatMediumDatePipe } from 'app/shared/date';
 import { TranslateDirective } from 'app/shared/language';
 import { IAnimal } from '../animal.model';
 import { PeserAnimalService } from '../../peser-animal/service/peser-animal.service';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'jhi-animal-detail',
   templateUrl: './animal-detail.html',
-  imports: [FontAwesomeModule, Alert, AlertError, TranslateDirective, TranslatePipe, RouterLink, FormatMediumDatePipe, DecimalPipe],
+  imports: [FontAwesomeModule, Alert, AlertError, TranslateDirective, RouterLink, FormatMediumDatePipe, DecimalPipe],
 })
 export class AnimalDetail {
   readonly animal = input<IAnimal | null>(null);
