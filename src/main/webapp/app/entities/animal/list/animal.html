@@ -79,9 +79,15 @@
               <fa-icon class="p-1" icon="sort" />
             </div>
           </th>
-          <th scope="col" jhiSortBy="client.id">
+          <th scope="col" jhiSortBy="client.prenom">
             <div class="d-flex">
-              <span jhiTranslate="petclinicApp.animal.client">Client</span>
+              <span jhiTranslate="petclinicApp.animal.clientPrenom">Prénom du client</span>
+              <fa-icon class="p-1" icon="sort" />
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="client.nom">
+            <div class="d-flex">
+              <span jhiTranslate="petclinicApp.animal.clientNom">Nom du client</span>
               <fa-icon class="p-1" icon="sort" />
             </div>
           </th>
@@ -105,7 +111,14 @@
           <td>
             @if (animal.client) {
             <div>
-              <a [routerLink]="['/client', animal.client.id, 'view']">{{ animal.client.id }}</a>
+              <a [routerLink]="['/client', animal.client.id, 'view']">{{ animal.client?.prenom }}</a>
+            </div>
+            }
+          </td>
+          <td>
+            @if (animal.client) {
+            <div>
+              <a [routerLink]="['/client', animal.client.id, 'view']">{{ animal.client?.nom }}</a>
             </div>
             }
           </td>
